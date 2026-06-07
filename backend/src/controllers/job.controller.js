@@ -24,11 +24,7 @@ export const createJob = async (req, res) => {
       job,
     });
   } catch (error) {
-    console.error(
-      "Error in createJob:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -36,7 +32,7 @@ export const createJob = async (req, res) => {
   }
 };
 
-export const getAllJobs = async (req,res) => {
+export const getAllJobs = async (req, res) => {
   try {
     const jobs = await Job.find({
         user: req.user._id,
@@ -48,11 +44,7 @@ export const getAllJobs = async (req,res) => {
       jobs,
     });
   } catch (error) {
-    console.error(
-      "Error in getAllJobs:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -62,7 +54,7 @@ export const getAllJobs = async (req,res) => {
 
 
 
-export const getJobById = async (req,res) => {
+export const getJobById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -83,11 +75,7 @@ export const getJobById = async (req,res) => {
       job,
     });
   } catch (error) {
-    console.error(
-      "Error in getJobById:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -123,16 +111,12 @@ export const updateJobStatus = async (req, res) => {
         job,
       });
     } catch (error) {
-      console.error(
-        "Error in updateJobStatus:",
-        error
-      );
-
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
   };
 
 export const deleteJob = async (req, res) => {
@@ -159,11 +143,7 @@ export const deleteJob = async (req, res) => {
         "Job deleted successfully",
     });
   } catch (error) {
-    console.error(
-      "Error in deleteJob:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -195,7 +175,7 @@ export const getJobStats = async (req, res) => {
       stats,
     });
   } catch (error) {
-    console.error("Error in getJobStats:", error);
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,

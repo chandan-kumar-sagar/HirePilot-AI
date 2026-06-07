@@ -37,10 +37,26 @@ const resumeSchema = new mongoose.Schema(
       default: 0,
     },
 
+    version: {
+      type: Number,
+      default: 1,
+    },
+
+    parentResume: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Resume",
+      default: null,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
     atsAnalysis: {
-  type: Object,
-  default: {},
-},
+     type: Object,
+     default: {},
+    },
   },
   {
     timestamps: true,

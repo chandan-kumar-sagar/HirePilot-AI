@@ -1,27 +1,18 @@
 import groq from "../../config/groq.js";
 
-export const analyzeJobMatch =
-  async ({
-    resumeText,
-    jobDescription,
-  }) => {
+export const askCareerCoach = async ({ resumeText, question }) => {
     const prompt = `
-Analyze the candidate resume against the job description.
+You are an expert career coach.
 
-Return ONLY valid JSON.
-
-{
-  "matchScore": 85, // Integer between 0 and 100
-  "strengths": [],
-  "missingSkills": [],
-  "recommendations": []
-}
+Analyze the candidate's resume and answer the question.
 
 Resume:
 ${resumeText}
 
-Job Description:
-${jobDescription}
+Question:
+${question}
+
+Provide detailed and actionable advice.
 `;
 
     const response =
@@ -36,7 +27,7 @@ ${jobDescription}
           },
         ],
 
-        temperature: 0.3,
+        temperature: 0.5,
       });
 
     return response.choices[0]

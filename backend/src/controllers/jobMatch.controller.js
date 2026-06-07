@@ -59,15 +59,26 @@ export const createJobMatch = async (req, res) => {
         });
       }
 
-      const jobMatch = await JobMatch.create({
+    let matchScore = Number(analysis.matchScore);
+
+    if (isNaN(matchScore)) matchScore = 0;
+
+    if (matchScore <= 1) matchScore *= 100;
+
+    matchScore = Math.round(matchScore);
+
+    if (matchScore > 100) matchScore = 100;
+
+    if (matchScore < 0) matchScore = 0;
+
+    const jobMatch = await JobMatch.create({
           user: req.user._id,
           resume: resume._id,
           companyName,
 
           jobTitle,
 
-          matchScore:
-            analysis.matchScore || 0,
+          matchScore: matchScore,
 
           strengths:
             analysis.strengths || [],
@@ -86,14 +97,10 @@ export const createJobMatch = async (req, res) => {
         jobMatch,
       });
     } catch (error) {
-      console.error(
-        "Error in createJobMatch:",
-        error
-      );
-
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
   };

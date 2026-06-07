@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "bullmq": "^5.78.0",
     "cloudinary": "^2.10.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -23,12 +24,16 @@
     "express-rate-limit": "^8.5.2",
     "groq-sdk": "^1.2.0",
     "helmet": "^8.2.0",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.2",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
+    "nodemailer": "^8.0.10",
     "pdf-parse": "^2.4.5",
     "pino": "^10.3.1",
+    "redis": "^6.0.0",
+    "winston": "^3.19.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

@@ -50,6 +50,7 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -106,6 +107,7 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -113,7 +115,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const getCurrentUser = async (req,res) => {
+export const getCurrentUser = async (req, res) => {
   
     try {
     res.status(200).json({
@@ -121,6 +123,7 @@ export const getCurrentUser = async (req,res) => {
       user: req.user,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,

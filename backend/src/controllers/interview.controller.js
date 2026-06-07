@@ -39,11 +39,10 @@ export const createInterviewQuestions = async (req, res) => {
         interview,
       });
     } catch (error) {
-      console.error(error);
-
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
   };

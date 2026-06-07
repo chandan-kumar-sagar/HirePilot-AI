@@ -34,7 +34,7 @@ export const uploadResume = async (req, res) => {
       resume,
     });
   } catch (error) {
-    console.error("Error in uploadResume:", error);
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -74,7 +74,6 @@ export const analyzeResume = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-
     res.status(500).json({
       success: false,
       message: error.message,
@@ -98,11 +97,7 @@ export const getAllResumes = async (req, res) => {
       resumes,
     });
   } catch (error) {
-    console.error(
-      "Error in getAllResumes:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -131,11 +126,7 @@ export const getResumeById = async (req, res) => {
       resume,
     });
   } catch (error) {
-    console.error(
-      "Error in getResumeById:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -170,11 +161,7 @@ await resume.deleteOne();
         "Resume deleted successfully",
     });
   } catch (error) {
-    console.error(
-      "Error in deleteResume:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,

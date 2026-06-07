@@ -49,6 +49,41 @@ const userSchema = new mongoose.Schema(
       enum: ["fresher", "junior", "mid", "senior"],
       default: "fresher",
     },
+
+    linkedinUrl: {
+      type: String,
+      default: "",
+    },
+
+    githubUrl: {
+      type: String,
+      default: "",
+    },
+
+    portfolioUrl: {
+      type: String,
+      default: "",
+    },
+
+    targetRole: {
+      type: String,
+      default: "",
+    },
+
+    targetSalary: {
+      type: String,
+      default: "",
+    },
+
+    preferredLocation: {
+      type: String,
+      default: "",
+    },
+
+    bio: {
+      type: String,
+        default: "",
+      },
   },
   {
     timestamps: true,

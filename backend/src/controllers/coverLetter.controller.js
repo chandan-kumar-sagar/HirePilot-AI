@@ -3,7 +3,7 @@ import CoverLetter from "../models/CoverLetter.model.js";
 import { cleanAiResponse } from "../utils/cleanAiResponse.js";
 import { generateCoverLetter } from "../services/ai/coverLetter.service.js";
 
-export const createCoverLetter = async (req,res) => {
+export const createCoverLetter = async (req, res) => {
 
   try {
     const {
@@ -72,11 +72,7 @@ const coverLetterContent = cleanAiResponse(aiResponse);
       coverLetter,
     });
   } catch (error) {
-    console.error(
-      "Error in createCoverLetter:",
-      error
-    );
-
+    console.error(error);
     res.status(500).json({
       success: false,
       message: error.message,

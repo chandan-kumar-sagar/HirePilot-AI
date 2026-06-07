@@ -8,16 +8,33 @@ import interviewRoutes from "./routes/interview.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import coverLetterRoutes from "./routes/coverLetter.routes.js";
 import jobMatchRoutes from "./routes/jobMatch.routes.js";
+import careerCoachRoutes from "./routes/careerCoach.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
+import userRoutes from "./routes/userprofile.routes.js";
+import resumeVersionRoutes from "./routes/resumeVersion.routes.js";
+import logger from "./utils/logger.js";
+import { apiLimiter } from "./middlewares/rateLimit.middleware.js";
 
 const app = express();
 
 // Global Middlewares
 app.use(cors());
 app.use(helmet());
-app.use(morgan('dev'));
+
+const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev";
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => logger.info(message.trim()),
+    },
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+// Apply rate limiting to all /api routes
+app.use("/api", apiLimiter);
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/resume", resumeRoutes);
@@ -25,6 +42,10 @@ app.use("/api/v1/interview", interviewRoutes);
 app.use("/api/v1/job", jobRoutes);
 app.use("/api/v1/coverLetter", coverLetterRoutes);
 app.use("/api/v1/jobMatch", jobMatchRoutes);
+app.use("/api/v1/careerCoach", careerCoachRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/resumeVersion", resumeVersionRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {
