@@ -27,10 +27,20 @@ const resumeSchema = new mongoose.Schema(
       type: Number,
     },
 
+    extractedText: {
+      type: String,
+      default: "",
+    },
+
     atsScore: {
       type: Number,
       default: 0,
     },
+
+    atsAnalysis: {
+  type: Object,
+  default: {},
+},
   },
   {
     timestamps: true,

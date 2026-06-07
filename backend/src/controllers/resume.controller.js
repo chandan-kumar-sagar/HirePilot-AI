@@ -1,6 +1,14 @@
 import Resume from "../models/Resume.model.js";
+import { extractResumeText } from "../services/resume/resumeParser.service.js";
+import { saveResume } from "../services/resume/resumeUpload.service.js";
+import { analyzeResumeATS } from "../services/ai/atsScore.service.js";
+import { analyzeResumeSchema } from "../validations/resume.validation.js";
+import fs from "fs";
 
-export const uploadResume = async (req,res) => {
+import { parseAiJson } from "../utils/cleanAiResponse.js";
+
+
+export const uploadResume = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -9,27 +17,164 @@ export const uploadResume = async (req,res) => {
       });
     }
 
-    const resume = await Resume.create({
-      user: req.user._id,
+    const extractedText = await extractResumeText(req.file.path);
 
+    const resume = await saveResume({
+      userId: req.user._id,
       title: req.body.title,
-
-      resumeUrl: req.file.path,
-
-      originalFileName:
-        req.file.originalname,
-
+      filePath: req.file.path,
+      originalFileName: req.file.originalname,
       fileSize: req.file.size,
+      extractedText,
     });
 
     res.status(201).json({
       success: true,
-      message:
-        "Resume uploaded successfully",
+      message: "Resume uploaded successfully",
       resume,
     });
   } catch (error) {
     console.error("Error in uploadResume:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const analyzeResume = async (req, res) => {
+  try {
+    const validatedData = analyzeResumeSchema.parse(req.body);
+    const { resumeId } = validatedData;
+
+    const resume =
+      await Resume.findById(
+        resumeId
+      );
+
+    if (!resume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    const aiResult = await analyzeResumeATS(resume.extractedText);
+
+    const parsedResult = parseAiJson(aiResult);
+
+    resume.atsScore = parsedResult.atsScore;
+    resume.atsAnalysis = parsedResult;
+
+    await resume.save();
+
+    res.status(200).json({
+      success: true,
+      analysis: parsedResult,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllResumes = async (req, res) => {
+  try {
+    const resumes = await Resume.find({
+      user: req.user._id,
+    })
+      .select(
+        "title atsScore originalFileName createdAt"
+      )
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: resumes.length,
+      resumes,
+    });
+  } catch (error) {
+    console.error(
+      "Error in getAllResumes:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getResumeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const resume = await Resume.findOne({
+        _id: id,
+        user: req.user._id,
+      });
+
+    if (!resume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      resume,
+    });
+  } catch (error) {
+    console.error(
+      "Error in getResumeById:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const deleteResume = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const resume = await Resume.findOne({
+        _id: id,
+        user: req.user._id,
+      });
+
+    if (!resume) {
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
+    }
+
+    if (resume.resumeUrl && fs.existsSync(resume.resumeUrl)) {
+      fs.unlinkSync(resume.resumeUrl);
+    }
+
+await resume.deleteOne();
+    res.status(200).json({
+      success: true,
+      message:
+        "Resume deleted successfully",
+    });
+  } catch (error) {
+    console.error(
+      "Error in deleteResume:",
+      error
+    );
+
     res.status(500).json({
       success: false,
       message: error.message,

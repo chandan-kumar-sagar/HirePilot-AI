@@ -4,6 +4,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import authRoutes from "./routes/auth.routes.js";
 import resumeRoutes from "./routes/resume.routes.js";
+import interviewRoutes from "./routes/interview.routes.js";
+import jobRoutes from "./routes/job.routes.js";
+import coverLetterRoutes from "./routes/coverLetter.routes.js";
+import jobMatchRoutes from "./routes/jobMatch.routes.js";
 
 const app = express();
 
@@ -17,6 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/resume", resumeRoutes);
+app.use("/api/v1/interview", interviewRoutes);
+app.use("/api/v1/job", jobRoutes);
+app.use("/api/v1/coverLetter", coverLetterRoutes);
+app.use("/api/v1/jobMatch", jobMatchRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {
