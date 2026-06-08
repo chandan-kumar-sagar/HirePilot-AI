@@ -37,6 +37,37 @@ const resumeSchema = new mongoose.Schema(
       default: 0,
     },
 
+    skills: {
+      type: [String],
+      default: [],
+    },
+
+    experience: {
+      type: [
+        {
+          company: String,
+          role: String,
+          startDate: String,
+          endDate: String,
+          description: String,
+        },
+      ],
+      default: [],
+    },
+
+    education: {
+      type: [
+        {
+          institution: String,
+          degree: String,
+          fieldOfStudy: String,
+          startDate: String,
+          endDate: String,
+        },
+      ],
+      default: [],
+    },
+
     version: {
       type: Number,
       default: 1,

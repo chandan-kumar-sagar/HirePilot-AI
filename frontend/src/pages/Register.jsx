@@ -53,7 +53,9 @@ export default function Register() {
             placeholder="John Doe"
           />
           {errors.fullName && (
-            <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.fullName.message}
+            </p>
           )}
         </div>
 
@@ -79,13 +81,16 @@ export default function Register() {
             placeholder="••••••••"
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
         {registerMutation.isError && (
           <p className="text-red-500 text-sm">
-            {registerMutation.error?.response?.data?.message || "Failed to register"}
+            {registerMutation.error?.response?.data?.message ||
+              "Failed to register"}
           </p>
         )}
 

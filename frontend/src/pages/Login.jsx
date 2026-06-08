@@ -66,7 +66,9 @@ export default function Login() {
             placeholder="••••••••"
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 

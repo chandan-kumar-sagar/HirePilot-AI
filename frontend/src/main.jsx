@@ -7,12 +7,10 @@ import Providers from "./app/provider";
 
 import "./index.css";
 
-ReactDOM.createRoot(
-  document.getElementById("root")
-).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Providers>
       <App />
     </Providers>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

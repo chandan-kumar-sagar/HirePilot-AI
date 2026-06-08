@@ -2,6 +2,7 @@ import Resume from "../models/Resume.model.js";
 import { extractResumeText } from "../services/resume/resumeParser.service.js";
 import { saveResume } from "../services/resume/resumeUpload.service.js";
 import { analyzeResumeATS } from "../services/ai/atsScore.service.js";
+import { extractStructuredData } from "../services/ai/extractResumeData.service.js";
 import { analyzeResumeSchema } from "../validations/resume.validation.js";
 import fs from "fs";
 
@@ -19,6 +20,7 @@ export const uploadResume = async (req, res) => {
 
     const extractedText = await extractResumeText(req.file.path);
 
+    // Save resume first so user gets instant response
     const resume = await saveResume({
       userId: req.user._id,
       title: req.body.title,
@@ -28,9 +30,23 @@ export const uploadResume = async (req, res) => {
       extractedText,
     });
 
+    // Run AI structured extraction in the background (non-blocking)
+    extractStructuredData(extractedText)
+      .then(async (structuredData) => {
+        await Resume.findByIdAndUpdate(resume._id, {
+          skills: structuredData.skills || [],
+          experience: structuredData.experience || [],
+          education: structuredData.education || [],
+        });
+        console.log(`[Resume] Structured data extracted for resume: ${resume._id}`);
+      })
+      .catch((err) => {
+        console.error(`[Resume] Background extraction failed for ${resume._id}:`, err.message);
+      });
+
     res.status(201).json({
       success: true,
-      message: "Resume uploaded successfully",
+      message: "Resume uploaded successfully. AI extraction is running in the background.",
       resume,
     });
   } catch (error) {
@@ -86,9 +102,7 @@ export const getAllResumes = async (req, res) => {
     const resumes = await Resume.find({
       user: req.user._id,
     })
-      .select(
-        "title atsScore originalFileName createdAt"
-      )
+      .select("title atsScore originalFileName fileSize skills experience education createdAt")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
