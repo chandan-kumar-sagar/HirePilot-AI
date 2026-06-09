@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
@@ -53,9 +52,7 @@ export default function UploadResumeModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>Upload Resume</Button>
-      </DialogTrigger>
+        <Button onClick={() => setOpen(true)}>Upload Resume</Button>
 
       <DialogContent>
         <DialogHeader>

@@ -52,13 +52,10 @@ export default function ResumeCard({ resume, onDelete }) {
 
         {/* Delete — stop propagation so clicking it doesn't navigate */}
         <Dialog>
-          <DialogTrigger asChild>
-            <button
-              className="text-gray-400 hover:text-red-500 transition-colors p-1.5 rounded-lg hover:bg-red-50"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <DialogTrigger onClick={(e) => e.stopPropagation()}>
+            <span className="text-gray-400 hover:text-red-500 transition-colors p-1.5 rounded-lg hover:bg-red-50">
               <Trash2 size={18} />
-            </button>
+            </span>
           </DialogTrigger>
           <DialogContent onClick={(e) => e.stopPropagation()}>
             <DialogHeader>
@@ -70,7 +67,7 @@ export default function ResumeCard({ resume, onDelete }) {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="mt-4 gap-2 sm:gap-0">
-              <DialogClose asChild>
+              <DialogClose>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
               <DialogClose asChild>
