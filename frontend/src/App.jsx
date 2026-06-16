@@ -3,6 +3,7 @@ import AppRoutes from "./routes/AppRoutes";
 import { getToken } from "./services/token.service";
 import { getProfile } from "./api/auth.api";
 import useAuthStore from "./features/auth/authService";
+import { Toaster } from "sonner";
 
 export default function App() {
   const [isInitializing, setIsInitializing] = useState(true);
@@ -36,5 +37,10 @@ export default function App() {
     );
   }
 
-  return <AppRoutes />;
+  return (
+    <>
+      <AppRoutes />
+      <Toaster richColors position="top-right" />
+    </>
+  );
 }

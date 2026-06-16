@@ -46,3 +46,65 @@ export const createInterviewQuestions = async (req, res) => {
     });
   }
   };
+
+export const getAllInterviews = async (req, res) => {
+  try {
+    const interviews = await Interview.find({ user: req.user._id })
+      .populate("resume", "title")
+      .sort({ _id: -1 });
+    
+    res.status(200).json({
+      success: true,
+      interviews,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getInterviewById = async (req, res) => {
+  try {
+    const interview = await Interview.findOne({ _id: req.params.id, user: req.user._id })
+      .populate("resume", "title");
+
+    if (!interview) {
+      return res.status(404).json({ success: false, message: "Interview not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      interview,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const deleteInterview = async (req, res) => {
+  try {
+    const interview = await Interview.findOneAndDelete({ _id: req.params.id, user: req.user._id });
+
+    if (!interview) {
+      return res.status(404).json({ success: false, message: "Interview not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Interview deleted successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

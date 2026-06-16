@@ -3,14 +3,13 @@ import groq from "../../config/groq.js";
 export const generateInterviewQuestions =
   async (resumeText) => {
   const prompt = `
-You are a Senior Technical Interviewer.
+You are a Senior Technical Interviewer with 15+ years of experience at top tech companies.
 
-Analyze the resume and identify the technologies mentioned.
+Analyze the resume below and generate a comprehensive set of interview questions across multiple categories.
 
-Generate interview questions categorized by technology.
+Return ONLY a valid JSON object with NO extra text, NO markdown, NO explanation.
 
-Return ONLY valid JSON.
-
+Use exactly this structure:
 {
   "nodejs": [],
   "javascript": [],
@@ -19,18 +18,30 @@ Return ONLY valid JSON.
   "mongodb": [],
   "react": [],
   "systemDesign": [],
-  "behavioral": []
+  "behavioral": [],
+  "llm": [],
+  "hld": [],
+  "lld": [],
+  "deployments": [],
+  "hrRound": []
 }
 
 Rules:
-- Generate 20 Node.js questions
-- Generate 20 JavaScript questions
-- Generate 20 MySQL questions
-- Generate 20 PostgreSQL questions
-- Generate 20 MongoDB questions
-- Generate 20 React questions
-- Generate 20 System Design questions
-- Generate 20 Behavioral questions
+- Generate exactly 20 Node.js questions (async, event loop, streams, middleware, REST best practices)
+- Generate exactly 20 JavaScript questions (closures, prototypes, promises, ES6+, event loop)
+- Generate exactly 20 MySQL questions (joins, indexing, transactions, stored procedures, optimization)
+- Generate exactly 20 PostgreSQL questions (JSONB, window functions, CTEs, indexing, performance)
+- Generate exactly 20 MongoDB questions (aggregation, indexing, schema design, replication, sharding)
+- Generate exactly 20 React questions (hooks, state management, performance, rendering, patterns)
+- Generate exactly 20 System Design questions (scalability, load balancing, caching, CAP theorem, microservices)
+- Generate exactly 20 Behavioral questions (STAR method, teamwork, conflict resolution, leadership, failure stories)
+- Generate exactly 20 LLM/AI questions (prompt engineering, RAG, fine-tuning, embeddings, vector databases, LangChain, hallucination, token limits, model evaluation, AI safety)
+- Generate exactly 20 High Level Design (HLD) questions (architecture patterns, API gateway, message queues, CDN, database selection, distributed systems, event-driven architecture)
+- Generate exactly 20 Low Level Design (LLD) questions (OOP principles, design patterns, class diagrams, SOLID principles, data structures, algorithm complexity, code extensibility)
+- Generate exactly 20 Deployments/DevOps questions (Docker, Kubernetes, CI/CD pipelines, GitHub Actions, Nginx, AWS/GCP/Azure, monitoring, logging, zero-downtime deployments)
+- Generate exactly 20 HR Round questions (salary negotiation, career goals, why this company, work-life balance, strengths and weaknesses, job transitions, 5-year plan, team culture fit)
+
+If a technology from the resume is not relevant to a category, still generate strong generic questions for that category.
 
 Resume:
 ${resumeText}
@@ -48,6 +59,7 @@ ${resumeText}
         ],
 
         temperature: 0.3,
+        max_tokens: 32768,
       });
 
     let content = response.choices[0].message.content;

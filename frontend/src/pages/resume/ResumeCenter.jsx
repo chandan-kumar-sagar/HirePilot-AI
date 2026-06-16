@@ -51,9 +51,9 @@ export default function ResumeCenter() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Resume Center</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Resume Center</h1>
           <p className="text-gray-400 mt-1 text-sm">
             Manage your resumes · AI extraction runs automatically on upload
           </p>

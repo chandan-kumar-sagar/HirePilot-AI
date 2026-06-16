@@ -159,8 +159,8 @@ export default function Dashboard() {
         />
         <div className="relative z-10">
           <p className="text-white/80 text-sm font-medium mb-1">Welcome back 👋</p>
-          <h1 className="text-3xl font-bold text-white mb-2">Hello, {firstName}!</h1>
-          <p className="text-white/90 text-lg font-medium h-7">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Hello, {firstName}!</h1>
+          <p className="text-white/90 text-base sm:text-lg font-medium h-7">
             <Typewriter
               texts={[
                 "Ready to land your dream job?",
@@ -182,7 +182,7 @@ export default function Dashboard() {
         >
           Your Overview
         </h2>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {statCards.map((card) => (
             <StatCard key={card.label} {...card} loading={statsLoading} />
           ))}

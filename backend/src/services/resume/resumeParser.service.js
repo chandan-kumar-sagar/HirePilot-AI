@@ -1,13 +1,12 @@
 import fs from "fs";
-import { createRequire } from "module";
-
-const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
+import { PDFParse } from "pdf-parse";
 
 export const extractResumeText = async (filePath) => {
   try {
     const pdfBuffer = fs.readFileSync(filePath);
-    const result = await pdfParse(pdfBuffer);
+    const parser = new PDFParse({ data: pdfBuffer });
+    const result = await parser.getText();
+    await parser.destroy();
     return result.text;
   } catch (error) {
     console.error("Resume Parsing Error:", error);
