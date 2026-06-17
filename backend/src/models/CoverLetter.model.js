@@ -17,12 +17,10 @@ const coverLetterSchema =
 
       companyName: {
         type: String,
-        required: true,
       },
 
       jobTitle: {
         type: String,
-        required: true,
       },
 
       content: {

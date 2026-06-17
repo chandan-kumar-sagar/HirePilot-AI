@@ -13,7 +13,7 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import userRoutes from "./routes/userprofile.routes.js";
 import resumeVersionRoutes from "./routes/resumeVersion.routes.js";
 import logger from "./utils/logger.js";
-import { apiLimiter } from "./middlewares/rateLimit.middleware.js";
+import { apiLimiter, aiLimiter } from "./middlewares/rateLimit.middleware.js";
 
 const app = express();
 
@@ -36,19 +36,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Apply rate limiting to all /api routes
+// Apply general rate limiting to all /api routes
 app.use("/api", apiLimiter);
 
+// ─── Standard Routes ──────────────────────────────────────────────────────────
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/resume", resumeRoutes);
-app.use("/api/v1/interview", interviewRoutes);
 app.use("/api/v1/job", jobRoutes);
-app.use("/api/v1/coverLetter", coverLetterRoutes);
-app.use("/api/v1/jobMatch", jobMatchRoutes);
-app.use("/api/v1/careerCoach", careerCoachRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/resumeVersion", resumeVersionRoutes);
+
+// ─── AI Routes (stricter: 10 req/min per user) ───────────────────────────────
+app.use("/api/v1/interview", aiLimiter, interviewRoutes);
+app.use("/api/v1/coverLetter", aiLimiter, coverLetterRoutes);
+app.use("/api/v1/jobMatch", aiLimiter, jobMatchRoutes);
+app.use("/api/v1/careerCoach", aiLimiter, careerCoachRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {
