@@ -53,14 +53,28 @@ app.use("/api/v1/coverLetter", aiLimiter, coverLetterRoutes);
 app.use("/api/v1/jobMatch", aiLimiter, jobMatchRoutes);
 app.use("/api/v1/careerCoach", aiLimiter, careerCoachRoutes);
 
+// ─── Root Route (silences browser 404 on direct server visit) ────────────────
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    name: "AI Career OS API",
+    version: "1.0.0",
+    environment: process.env.NODE_ENV || "development",
+    docs: "/health",
+  });
+});
+
+// Silence browser favicon auto-fetch from polluting the logs
+app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 // Basic health check route
-app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'success', message: 'Backend is running correctly on port 3000!' });
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "success", message: "Backend is running correctly on port 3000!" });
 });
 
 // Handling undefined routes
 app.use((req, res) => {
-    res.status(404).json({ status: 'error', message: 'Route not found' });
+  res.status(404).json({ status: "error", message: `Route not found: ${req.method} ${req.originalUrl}` });
 });
 
 export default app;
