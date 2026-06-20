@@ -225,6 +225,16 @@ select:focus {
   background-clip: text;
 }
 
+.animate-gradient-text {
+  background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent), var(--success), var(--primary));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
 /* Premium button */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), #ff4757);

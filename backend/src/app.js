@@ -12,6 +12,7 @@ import careerCoachRoutes from "./routes/careerCoach.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import userRoutes from "./routes/userprofile.routes.js";
 import resumeVersionRoutes from "./routes/resumeVersion.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 import logger from "./utils/logger.js";
 import { apiLimiter, aiLimiter } from "./middlewares/rateLimit.middleware.js";
 
@@ -46,6 +47,7 @@ app.use("/api/v1/job", jobRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/resumeVersion", resumeVersionRoutes);
+app.use("/api/v1/contact", contactRoutes);
 
 // ─── AI Routes (stricter: 10 req/min per user) ───────────────────────────────
 app.use("/api/v1/interview", aiLimiter, interviewRoutes);

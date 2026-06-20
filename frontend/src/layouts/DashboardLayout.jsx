@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
+import Footer from "../components/ui/Footer";
+
 import {
   FileText,
   Briefcase,
@@ -61,12 +63,12 @@ export default function DashboardLayout() {
               <ArrowLeft size={18} />
             </button>
           ) : (
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-primary">
-              <Sparkles size={16} className="text-white" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src="/logo.svg" alt="HirePilot-AI" className="w-full h-full object-contain" />
             </div>
           )}
-          <span className="text-lg font-bold text-foreground">
-            {location.pathname !== "/dashboard" ? "Back" : "AI Career OS"}
+          <span className="text-lg font-bold text-foreground animate-gradient-text">
+            {location.pathname !== "/dashboard" ? "Back" : "HirePilot-AI"}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -97,11 +99,11 @@ export default function DashboardLayout() {
         {/* Logo & Close Button */}
         <div className="flex items-center justify-between gap-2 mb-10">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-primary">
-              <Sparkles size={18} className="text-white" />
+            <div className="w-9 h-9 flex items-center justify-center">
+              <img src="/logo.svg" alt="HirePilot-AI" className="w-full h-full object-contain" />
             </div>
-            <span className="text-lg font-bold text-foreground">
-              AI Career OS
+            <span className="text-lg font-bold text-foreground animate-gradient-text">
+              HirePilot-AI
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -164,8 +166,11 @@ export default function DashboardLayout() {
       </aside>
 
       {/* ── Page Content ─────────────────────────────────────── */}
-      <main className="flex-1 p-4 md:p-8 md:ml-64 w-full overflow-x-hidden min-h-screen bg-background transition-colors duration-200">
-        <Outlet />
+      <main className="flex-1 p-4 md:p-8 md:ml-64 w-full overflow-x-hidden min-h-screen bg-background transition-colors duration-200 flex flex-col">
+        <div className="flex-1">
+          <Outlet />
+        </div>
+        <Footer />
       </main>
     </div>
   );
