@@ -1,6 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Briefcase, GraduationCap, Zap, Star, Calendar, Building2, BookOpen } from "lucide-react";
+import { ArrowLeft, Briefcase, GraduationCap, Zap, Star, Calendar, Building2, BookOpen, Wand2 } from "lucide-react";
 import { useResumeDetails } from "@/features/resume/useResumeDetails";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { analyzeResume } from "@/api/resume.api";
+import { toast } from "sonner";
 
 // ─── ATS Score Ring ──────────────────────────────────────────────────────────
 function ATSRing({ score }) {
@@ -156,7 +159,19 @@ function LoadingSkeleton() {
 export default function ResumeDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data, isLoading } = useResumeDetails(id);
+
+  const analyzeMutation = useMutation({
+    mutationFn: () => analyzeResume(id),
+    onSuccess: () => {
+      toast.success("Resume analyzed successfully!");
+      queryClient.invalidateQueries(["resume", id]);
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || "Failed to analyze resume");
+    }
+  });
 
   if (isLoading) return <LoadingSkeleton />;
 
@@ -201,7 +216,26 @@ export default function ResumeDetails() {
               </p>
             </div>
           </div>
-          <ATSRing score={resume.atsScore || 0} />
+          <div className="flex flex-col items-center gap-3">
+            <ATSRing score={resume.atsScore || 0} />
+            <button
+              onClick={() => analyzeMutation.mutate()}
+              disabled={analyzeMutation.isPending}
+              className="flex items-center gap-2 btn-primary py-2 px-4 rounded-xl text-sm font-semibold shadow-md disabled:opacity-50"
+            >
+              {analyzeMutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Analyzing...
+                </span>
+              ) : (
+                <>
+                  <Wand2 size={16} />
+                  Calculate ATS Score
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Stats Row */}

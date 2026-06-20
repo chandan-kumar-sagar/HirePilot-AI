@@ -2,6 +2,7 @@ import Resume from "../models/Resume.model.js";
 import CoverLetter from "../models/CoverLetter.model.js";
 import { cleanAiResponse } from "../utils/cleanAiResponse.js";
 import { generateCoverLetter as generateAiCoverLetter } from "../services/ai/coverLetter.service.js";
+import { getResumeContext } from "../utils/resumeFormatter.js";
 
 export const createCoverLetter = async (req, res) => {
   try {
@@ -26,8 +27,9 @@ export const createCoverLetter = async (req, res) => {
       });
     }
 
+    const resumeContext = getResumeContext(resume);
     const aiResponse = await generateAiCoverLetter({
-      resumeText: resume.extractedText,
+      resumeContext,
       companyName,
       jobTitle,
       jobDescription,

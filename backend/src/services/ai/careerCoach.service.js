@@ -1,9 +1,9 @@
 // Also update the AI service to handle optional resumeText
 import groq from "../../config/groq.js";
 
-export const askCareerCoach = async ({ resumeText, question }) => {
-  const resumeSection = resumeText
-    ? `\nCandidate Resume:\n${resumeText}\n`
+export const askCareerCoach = async ({ resumeContext, question }) => {
+  const resumeSection = resumeContext
+    ? `\nCandidate Resume context (structured or text):\n${resumeContext}\n`
     : "\n(No resume provided — give general expert career guidance.)\n";
 
   const prompt = `You are an expert AI Career Coach with deep knowledge of software engineering, tech industry trends, career growth paths, and job hunting strategies.
@@ -15,7 +15,7 @@ ${question}
 Provide detailed, actionable, and well-structured career advice. Use numbered steps or bullet points where relevant. Be motivating and practical. Do not use JSON format — respond in plain text.`;
 
   const response = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: "llama-3.1-8b-instant",
     messages: [{ role: "user", content: prompt }],
     temperature: 0.6,
   });

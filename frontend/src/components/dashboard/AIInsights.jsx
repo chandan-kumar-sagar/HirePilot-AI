@@ -82,11 +82,18 @@ export default function AIInsights({ stats, jobStats }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.5 }}
-      className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-6 shadow-lg text-white"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+      className="rounded-3xl p-6 shadow-xl text-white relative overflow-hidden group"
+      style={{
+        backgroundColor: "#0f172a",
+        backgroundImage: "radial-gradient(at 100% 100%, hsla(260,80%,15%,1) 0, transparent 50%), radial-gradient(at 0% 0%, hsla(353,70%,20%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(220,80%,15%,1) 0, transparent 50%)",
+        backgroundSize: "200% 200%",
+        animation: "mesh-gradient 12s ease infinite"
+      }}
     >
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none animate-float" />
       <div className="flex items-center gap-2 mb-6">
         <Sparkles size={20} className="text-yellow-400" />
         <h3 className="text-lg font-bold">AI Insights</h3>

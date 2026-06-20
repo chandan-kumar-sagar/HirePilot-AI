@@ -57,8 +57,8 @@ export default function QuickActions() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.5 }}
-      className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100"
+      transition={{ duration: 0.5, delay: 0.6 }}
+      className="glass-premium rounded-3xl p-6 border border-white/20 hover:shadow-lg transition-shadow duration-300"
     >
       <div className="flex items-center gap-2 mb-6">
         <Zap size={20} className="text-yellow-500" />

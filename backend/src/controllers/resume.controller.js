@@ -3,9 +3,10 @@ import { extractResumeText } from "../services/resume/resumeParser.service.js";
 import { saveResume } from "../services/resume/resumeUpload.service.js";
 import { analyzeResumeATS } from "../services/ai/atsScore.service.js";
 import { extractStructuredData } from "../services/ai/extractResumeData.service.js";
+import { generateResumeSummary } from "../services/ai/resumeSummary.service.js";
 import { analyzeResumeSchema } from "../validations/resume.validation.js";
 import fs from "fs";
-
+import { getResumeContext } from "../utils/resumeFormatter.js";
 import { parseAiJson } from "../utils/cleanAiResponse.js";
 
 
@@ -30,7 +31,7 @@ export const uploadResume = async (req, res) => {
       extractedText,
     });
 
-    // Run AI structured extraction in the background (non-blocking)
+    // Run AI structured extraction AND summary generation in the background (non-blocking)
     extractStructuredData(extractedText)
       .then(async (structuredData) => {
         await Resume.findByIdAndUpdate(resume._id, {
@@ -42,6 +43,18 @@ export const uploadResume = async (req, res) => {
       })
       .catch((err) => {
         console.error(`[Resume] Background extraction failed for ${resume._id}:`, err.message);
+      });
+
+    // Generate compact AI summary in the background (used for all AI feature prompts)
+    generateResumeSummary(extractedText)
+      .then(async (summary) => {
+        if (summary) {
+          await Resume.findByIdAndUpdate(resume._id, { summary });
+          console.log(`[Resume] AI summary stored for resume: ${resume._id}`);
+        }
+      })
+      .catch((err) => {
+        console.error(`[Resume] Summary generation failed for ${resume._id}:`, err.message);
       });
 
     res.status(201).json({
@@ -76,7 +89,8 @@ export const analyzeResume = async (req, res) => {
       });
     }
 
-    const aiResult = await analyzeResumeATS(resume.extractedText);
+    const resumeContext = getResumeContext(resume);
+    const aiResult = await analyzeResumeATS(resumeContext);
 
     const parsedResult = parseAiJson(aiResult);
 

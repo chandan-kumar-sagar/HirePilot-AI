@@ -2,6 +2,7 @@ import Resume from "../models/Resume.model.js";
 import CareerCoach from "../models/CareerCoach.model.js";
 import { askCareerCoach } from "../services/ai/careerCoach.service.js";
 import { cleanAiResponse } from "../utils/cleanAiResponse.js";
+import { getResumeContext } from "../utils/resumeFormatter.js";
 
 export const createCareerAdvice = async (req, res) => {
   try {
@@ -14,19 +15,18 @@ export const createCareerAdvice = async (req, res) => {
       });
     }
 
-    // resumeId is optional — if provided, personalize with resume context
-    let resumeText = null;
+    let resumeContext = null;
     if (resumeId) {
       const resume = await Resume.findOne({
         _id: resumeId,
         user: req.user._id,
       });
       if (resume) {
-        resumeText = resume.extractedText;
+        resumeContext = getResumeContext(resume);
       }
     }
 
-    const aiResponse = await askCareerCoach({ resumeText, question });
+    const aiResponse = await askCareerCoach({ resumeContext, question });
     const answer = cleanAiResponse(aiResponse);
 
     const careerAdvice = await CareerCoach.create({

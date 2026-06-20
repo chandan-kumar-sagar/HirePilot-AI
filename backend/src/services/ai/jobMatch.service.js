@@ -1,27 +1,32 @@
 import groq from "../../config/groq.js";
+import { compressText } from "../../utils/aiContext.util.js";
 
 export const analyzeJobMatch =
   async ({
-    resumeText,
+    resumeContext,
     jobDescription,
   }) => {
+    // Strictly limit both inputs: 2500 chars each = ~625 tokens each = ~1250 tokens total (safe)
+    const safeResume = compressText(resumeContext, 2500);
+    const safeJD = compressText(jobDescription, 2500);
+
     const prompt = `
-Analyze the candidate resume against the job description.
+Analyze the candidate resume context against the job description.
 
 Return ONLY valid JSON.
 
 {
-  "matchScore": 85, // Integer between 0 and 100
+  "matchScore": 85,
   "strengths": [],
   "missingSkills": [],
   "recommendations": []
 }
 
-Resume:
-${resumeText}
+Resume Context:
+${safeResume}
 
 Job Description:
-${jobDescription}
+${safeJD}
 `;
 
     const response =

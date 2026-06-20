@@ -29,10 +29,10 @@ export default function ApplicationChart({ stats }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 h-full"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="glass-premium rounded-3xl p-6 h-full border border-white/20 hover:shadow-lg transition-shadow duration-300"
     >
       <h3 className="text-lg font-bold text-gray-800 mb-1">Application Funnel</h3>
       <p className="text-sm text-gray-500 mb-6">

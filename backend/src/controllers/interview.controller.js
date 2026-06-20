@@ -1,6 +1,6 @@
 import Resume from "../models/Resume.model.js";
 import Interview from "../models/Interview.model.js";
-
+import { getResumeContext } from "../utils/resumeFormatter.js";
 
 import {
   generateInterviewQuestions,
@@ -25,7 +25,8 @@ export const createInterviewQuestions = async (req, res) => {
         });
       }
 
-      const aiResponse = await generateInterviewQuestions(resume.extractedText);
+      const resumeContext = getResumeContext(resume);
+      const aiResponse = await generateInterviewQuestions(resumeContext);
 
       const questions = parseAiJson(aiResponse);
       const interview = await Interview.create({

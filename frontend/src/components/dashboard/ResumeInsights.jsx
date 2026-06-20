@@ -41,8 +41,8 @@ export default function ResumeInsights() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100"
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="glass-premium rounded-3xl p-6 border border-white/20 hover:shadow-lg transition-shadow duration-300"
     >
       <div className="flex items-center gap-2 mb-6">
         <FileText className="text-blue-500" size={20} />

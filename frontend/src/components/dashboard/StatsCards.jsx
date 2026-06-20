@@ -38,9 +38,9 @@ export default function StatsCards({ stats, loading }) {
             key={config.key}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="bg-card text-card-foreground rounded-3xl p-5 shadow-sm border border-border hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            className="glass-premium rounded-3xl p-5 hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden group"
           >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             <div className={`w-11 h-11 rounded-2xl ${config.bg} flex items-center justify-center mb-4`}>
               <Icon className={config.text} size={22} />
             </div>

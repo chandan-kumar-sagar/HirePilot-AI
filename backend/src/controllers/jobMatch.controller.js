@@ -2,6 +2,7 @@ import Resume from "../models/Resume.model.js";
 import JobMatch from "../models/JobMatch.model.js";
 import { analyzeJobMatch } from "../services/ai/jobMatch.service.js";
 import { parseAiJson } from "../utils/cleanAiResponse.js";
+import { getResumeContext } from "../utils/resumeFormatter.js";
 
 export const createJobMatch = async (req, res) => {
   try {
@@ -26,8 +27,9 @@ export const createJobMatch = async (req, res) => {
       });
     }
 
+    const resumeContext = getResumeContext(resume);
     const aiResponse = await analyzeJobMatch({
-      resumeText: resume.extractedText,
+      resumeContext,
       jobDescription,
     });
 

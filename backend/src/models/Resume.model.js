@@ -32,6 +32,12 @@ const resumeSchema = new mongoose.Schema(
       default: "",
     },
 
+    // AI-generated compact summary (used instead of full text for AI prompts)
+    summary: {
+      type: String,
+      default: "",
+    },
+
     atsScore: {
       type: Number,
       default: 0,

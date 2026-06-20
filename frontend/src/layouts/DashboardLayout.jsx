@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import Footer from "../components/ui/Footer";
 
 import {
@@ -42,9 +43,12 @@ export default function DashboardLayout() {
 
   const firstName = user?.fullName?.split(" ")[0] || "User";
 
+  const queryClient = useQueryClient();
+
   const handleLogout = () => {
     removeToken();
     logout();
+    queryClient.clear();
     navigate("/login");
   };
 
@@ -92,7 +96,7 @@ export default function DashboardLayout() {
 
       {/* ── Sidebar ─────────────────────────────────────────── */}
       <aside
-        className={`fixed left-0 top-0 h-full w-64 flex flex-col p-6 shadow-lg z-50 transform transition-all duration-300 ease-in-out md:translate-x-0 bg-card border-r border-border ${
+        className={`fixed left-0 top-0 h-full w-64 flex flex-col p-6 shadow-2xl z-50 transform transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-x-0 glass-panel ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -127,15 +131,24 @@ export default function DashboardLayout() {
               to={path}
               onClick={closeSidebar}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-full text-left ${
+                `flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-300 w-full text-left relative overflow-hidden group ${
                   isActive 
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" 
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    ? "bg-primary text-white shadow-[0_4px_15px_rgba(255,107,107,0.3)] transform scale-[1.02]" 
+                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground hover:scale-[1.02]"
                 }`
               }
             >
-              <Icon size={18} />
-              {label}
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-[#ff4757] z-0"></div>
+                  )}
+                  <div className="relative z-10 flex items-center gap-3">
+                    <Icon size={18} className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
+                    {label}
+                  </div>
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
