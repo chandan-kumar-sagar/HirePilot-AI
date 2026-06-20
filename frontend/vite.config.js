@@ -21,7 +21,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false, // Disabling sourcemaps significantly speeds up build time
-    minify: 'esbuild', // esbuild is extremely fast
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
