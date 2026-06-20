@@ -9,8 +9,8 @@ import {
   DialogTrigger,
   DialogFooter,
   DialogClose,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
+} from "../ui/dialog.jsx";
+import { Button } from "../ui/button.jsx";
 
 // ATS score colour helper
 function atsColor(score) {
