@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import compression from 'compression';
 import authRoutes from "./routes/auth.routes.js";
 import resumeRoutes from "./routes/resume.routes.js";
 import interviewRoutes from "./routes/interview.routes.js";
@@ -13,6 +14,9 @@ import dashboardRoutes from "./routes/dashboard.routes.js";
 import userRoutes from "./routes/userprofile.routes.js";
 import resumeVersionRoutes from "./routes/resumeVersion.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
+import resumeBuilderRoutes from "./routes/resumeBuilder.routes.js";
+import mockInterviewRoutes from "./routes/mockInterview.routes.js";
+import recommendationRoutes from "./routes/recommendation.routes.js";
 import logger from "./utils/logger.js";
 import { apiLimiter, aiLimiter } from "./middlewares/rateLimit.middleware.js";
 
@@ -59,7 +63,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(compression()); // Compress all responses
 
 // Apply general rate limiting to all /api routes
 app.use("/api", apiLimiter);
@@ -72,12 +76,15 @@ app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/resumeVersion", resumeVersionRoutes);
 app.use("/api/v1/contact", contactRoutes);
+app.use("/api/v1/resume-builder", resumeBuilderRoutes);
+app.use("/api/v1/mock-interview", mockInterviewRoutes);
 
 // ─── AI Routes (stricter: 10 req/min per user) ───────────────────────────────
 app.use("/api/v1/interview", aiLimiter, interviewRoutes);
 app.use("/api/v1/coverLetter", aiLimiter, coverLetterRoutes);
 app.use("/api/v1/jobMatch", aiLimiter, jobMatchRoutes);
 app.use("/api/v1/careerCoach", aiLimiter, careerCoachRoutes);
+app.use("/api/v1/recommendations", recommendationRoutes); // Limiter is applied in the route file
 
 // ─── Root Route (silences browser 404 on direct server visit) ────────────────
 app.get("/", (req, res) => {

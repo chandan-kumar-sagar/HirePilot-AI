@@ -22,7 +22,7 @@ export default function JobMatch() {
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-3xl">🎯</span>
-            <h1 className="text-3xl sm:text-4xl font-black">Job Match Analyzer</h1>
+            <h1 className="text-3xl sm:text-4xl font-black">Job Description Analyzer</h1>
           </div>
           <p className="text-blue-100 text-lg sm:text-xl mb-8 leading-relaxed max-w-lg">
             Check how well your resume matches a specific job description before you apply.

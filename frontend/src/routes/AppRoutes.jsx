@@ -17,6 +17,9 @@ import CoverLetters from "../pages/CoverLetters";
 import JobMatch from "../pages/jobMatch/JobMatch";
 import CareerCoach from "../pages/careerCoach/CareerCoach";
 import Profile from "../pages/profile/Profile";
+import ResumeBuilder from "../pages/ResumeBuilder";
+import MockInterview from "../pages/MockInterview";
+import JobRecommendations from "../pages/JobRecommendations";
 
 import Features from "../pages/public/Features";
 import Pricing from "../pages/public/Pricing";
@@ -62,6 +65,9 @@ export default function AppRoutes() {
             <Route path="/job-matches" element={<JobMatch />} />
             <Route path="/career-coach" element={<CareerCoach />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/resume-builder" element={<ResumeBuilder />} />
+            <Route path="/mock-interview" element={<MockInterview />} />
+            <Route path="/recommendations" element={<JobRecommendations />} />
           </Route>
         </Route>
       </Routes>

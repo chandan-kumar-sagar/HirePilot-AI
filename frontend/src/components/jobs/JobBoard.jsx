@@ -91,8 +91,8 @@ export default function JobBoard() {
     <div className="p-4 sm:p-6 bg-background text-foreground min-h-[calc(100vh-4rem)]">
       <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-black">Job Board</h1>
-          <p className="text-muted-foreground mt-1">Track and manage your applications.</p>
+          <h1 className="text-3xl font-black">Application Tracker</h1>
+          <p className="text-muted-foreground mt-1">Track and manage your active job applications.</p>
         </div>
         <button
           className="px-5 py-2.5 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:opacity-90 transition-opacity shadow-sm"
@@ -118,7 +118,7 @@ export default function JobBoard() {
         </div>
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="flex overflow-x-auto custom-scrollbar gap-6 pb-6 pt-2 items-start h-full snap-x">
+          <div className="flex overflow-x-auto custom-scrollbar gap-6 pb-6 pt-2 items-start h-full snap-x snap-mandatory hide-scrollbar-mobile">
             {Object.entries(localColumns).map(([title, colJobs]) => (
               <div key={title} className="snap-center shrink-0 w-[85vw] sm:w-[320px]">
                 <JobColumn title={title} jobs={colJobs} />

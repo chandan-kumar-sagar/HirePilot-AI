@@ -96,6 +96,14 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.15);
 }
 
+/* Global button micro-interactions */
+button {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+}
+button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
 /* Keyframe Animations */
 @keyframes fadeInUp {
   from {

@@ -17,7 +17,8 @@ import {
   X,
   ScanSearch,
   User,
-  ArrowLeft
+  ArrowLeft,
+  Mic
 } from "lucide-react";
 import useAuthStore from "../features/auth/authService";
 import { removeToken } from "../services/token.service";
@@ -26,10 +27,15 @@ import ThemeToggle from "../components/ThemeToggle";
 const NAV_ITEMS = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
   { icon: FileText, label: "Resumes", path: "/resume-center" },
-  { icon: Briefcase, label: "Jobs", path: "/jobs" },
+  { icon: Sparkles, label: "AI Resume Builder", path: "/resume-builder" },
+  { icon: Mic, label: "Mock Interview", path: "/mock-interview" },
+  // Job Pipeline
+  { icon: Target, label: "Discover Jobs", path: "/recommendations" },
+  { icon: ScanSearch, label: "Job Analyzer", path: "/job-matches" },
+  { icon: Briefcase, label: "Application Tracker", path: "/jobs" },
+  
   { icon: Users, label: "Interviews", path: "/interviews" },
   { icon: Mail, label: "Cover Letters", path: "/cover-letters" },
-  { icon: ScanSearch, label: "Job Matches", path: "/job-matches" },
   { icon: Bot, label: "Career Coach", path: "/career-coach" },
   { icon: User, label: "Profile", path: "/profile" },
 ];
@@ -179,7 +185,7 @@ export default function DashboardLayout() {
       </aside>
 
       {/* ── Page Content ─────────────────────────────────────── */}
-      <main className="flex-1 p-4 md:p-8 md:ml-64 w-full overflow-x-hidden min-h-screen bg-background transition-colors duration-200 flex flex-col">
+      <main className="flex-1 p-4 pb-24 md:pb-8 md:p-8 md:ml-64 w-full overflow-x-hidden min-h-screen bg-background transition-colors duration-200 flex flex-col">
         <div className="flex-1">
           <Outlet />
         </div>
